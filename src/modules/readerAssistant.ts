@@ -18,6 +18,15 @@ const PREF = "extensions.zotero.paperguide";
 const conversations = new Map<number, ChatEntry[]>();
 const panels = new WeakMap<object, HTMLElement>();
 const pageCache = new Map<number, PageChunk[]>();
+const selectionSnapshots = new WeakMap<object, string>();
+const selectionListeners = new WeakMap<
+  object,
+  { doc: Document; handler: () => void }
+>();
+const registeredSelectionListeners = new Set<{
+  doc: Document;
+  handler: () => void;
+}>();
 
 const styles = `
 :host { all: initial; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #30343b; --pg-primary:#3f6f91; --pg-primary-strong:#315b78; --pg-primary-soft:#eef4f8; --pg-primary-border:#d5e1e9; --pg-ink:#30343b; }
@@ -114,9 +123,9 @@ function activeItemId(reader: any): number | undefined {
 
 function readerWindow(reader: any): Window | undefined {
   return (
+    reader?._iframeWindow ??
     reader?._internalReader?._primaryView?._iframeWindow ??
     reader?._internalReader?._primaryView?._iframe?.contentWindow ??
-    reader?._iframeWindow ??
     reader?._iframe?.contentWindow
   );
 }
@@ -666,59 +675,40 @@ function createPanel(reader: any, selectedText = "") {
 export function registerReaderAssistant() {
   const addToolbarButton = (event: any) => {
     const { reader, doc, append } = event;
+    const selectionDoc = readerWindow(reader)?.document;
+    if (selectionDoc && !selectionListeners.has(reader)) {
+      const handler = () => {
+        const selected = selectionDoc.getSelection()?.toString().trim();
+        if (selected) selectionSnapshots.set(reader, selected);
+      };
+      selectionDoc.addEventListener("selectionchange", handler);
+      const listener = { doc: selectionDoc, handler };
+      selectionListeners.set(reader, listener);
+      registeredSelectionListeners.add(listener);
+    }
     const button = doc.createElement("button");
     button.className = "toolbarButton";
     button.title = "Paper Guide：带读与论文问答";
     button.textContent = "Paper Guide";
     button.style.cssText =
-      "font-size:12px;padding:4px 8px;border-radius:4px;margin:0 4px;color:inherit;";
-    button.addEventListener("click", () => createPanel(reader));
+      "font-size:12px;padding:4px 8px;border-radius:4px;margin:0 4px;color:inherit;-moz-window-dragging:no-drag;";
+    button.addEventListener("click", () => {
+      const current = selectionDoc?.getSelection()?.toString().trim();
+      const selectedText = current || selectionSnapshots.get(reader) || "";
+      createPanel(reader, selectedText);
+    });
     append(button);
-  };
-  const addSelectionAction = (event: any) => {
-    const { reader, doc, params, append } = event;
-    const action = doc.createElement("button");
-    action.type = "button";
-    action.className = "row basic";
-    action.textContent = "问 Paper Guide";
-    action.setAttribute("aria-label", "将选中文字发送给 Paper Guide");
-    action.style.cssText =
-      "display:block;width:calc(100% - 12px);margin:6px;padding:6px 9px;border:1px solid #d7dce1;border-radius:4px;background:#fff;color:inherit;font:inherit;text-align:left;cursor:pointer;";
-    action.addEventListener("mouseenter", () => {
-      action.style.backgroundColor = "#f1f5f8";
-      action.style.borderColor = "#b9c8d3";
-    });
-    action.addEventListener("mouseleave", () => {
-      action.style.backgroundColor = "#fff";
-      action.style.borderColor = "#d7dce1";
-    });
-    const selectedText = params?.annotation?.text ?? "";
-    const openAssistant = () => {
-      // Let Zotero finish dismissing its selection popup before mounting our UI.
-      // Keep a copy of the selection in case closing the popup clears the range.
-      setTimeout(() => createPanel(reader, selectedText), 0);
-    };
-    // Mousedown runs before Zotero dismisses the popup; click remains for
-    // keyboard and assistive-technology activation.
-    action.addEventListener("mousedown", openAssistant, { once: true });
-    action.addEventListener("click", openAssistant);
-    append(action);
   };
   Zotero.Reader.registerEventListener(
     "renderToolbar",
     addToolbarButton,
     PLUGIN_ID,
   );
-  Zotero.Reader.registerEventListener(
-    "renderTextSelectionPopup",
-    addSelectionAction,
-    PLUGIN_ID,
-  );
   return () => {
     Zotero.Reader.unregisterEventListener("renderToolbar", addToolbarButton);
-    Zotero.Reader.unregisterEventListener(
-      "renderTextSelectionPopup",
-      addSelectionAction,
-    );
+    registeredSelectionListeners.forEach(({ doc, handler }) => {
+      doc.removeEventListener("selectionchange", handler);
+    });
+    registeredSelectionListeners.clear();
   };
 }
