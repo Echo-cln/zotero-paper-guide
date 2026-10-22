@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — 2026-10-22
+
+- Replace the template translation glyph with a paper-and-Q&A icon.
+- Restore a framed, keyboard-accessible button in Zotero’s selection popup.
+- Capture selected text before the popup closes and open Paper Guide on pointer or keyboard activation.
+
 ## 0.1.1 — 2026-10-22
 
 - Match the selection action to Zotero’s neutral reader popup style.

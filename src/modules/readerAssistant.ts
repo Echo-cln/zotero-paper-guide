@@ -677,25 +677,31 @@ export function registerReaderAssistant() {
   };
   const addSelectionAction = (event: any) => {
     const { reader, doc, params, append } = event;
-    const action = doc.createElement("div");
+    const action = doc.createElement("button");
+    action.type = "button";
     action.className = "row basic";
-    action.setAttribute("role", "button");
-    action.setAttribute("tabindex", "0");
     action.textContent = "问 Paper Guide";
-    action.style.cssText = "cursor:pointer;color:inherit;user-select:none;";
+    action.setAttribute("aria-label", "将选中文字发送给 Paper Guide");
+    action.style.cssText =
+      "display:block;width:calc(100% - 12px);margin:6px;padding:6px 9px;border:1px solid #d7dce1;border-radius:4px;background:#fff;color:inherit;font:inherit;text-align:left;cursor:pointer;";
+    action.addEventListener("mouseenter", () => {
+      action.style.backgroundColor = "#f1f5f8";
+      action.style.borderColor = "#b9c8d3";
+    });
+    action.addEventListener("mouseleave", () => {
+      action.style.backgroundColor = "#fff";
+      action.style.borderColor = "#d7dce1";
+    });
     const selectedText = params?.annotation?.text ?? "";
     const openAssistant = () => {
       // Let Zotero finish dismissing its selection popup before mounting our UI.
       // Keep a copy of the selection in case closing the popup clears the range.
       setTimeout(() => createPanel(reader, selectedText), 0);
     };
+    // Mousedown runs before Zotero dismisses the popup; click remains for
+    // keyboard and assistive-technology activation.
+    action.addEventListener("mousedown", openAssistant, { once: true });
     action.addEventListener("click", openAssistant);
-    action.addEventListener("keydown", (keyEvent: KeyboardEvent) => {
-      if (keyEvent.key === "Enter" || keyEvent.key === " ") {
-        keyEvent.preventDefault();
-        openAssistant();
-      }
-    });
     append(action);
   };
   Zotero.Reader.registerEventListener(
