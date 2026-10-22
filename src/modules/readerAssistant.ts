@@ -689,9 +689,11 @@ export function registerReaderAssistant() {
     const button = doc.createElement("button");
     button.className = "toolbarButton";
     button.title = "Paper Guide：带读与论文问答";
-    button.textContent = "Paper Guide";
-    button.style.cssText =
-      "font-size:12px;padding:4px 8px;border-radius:4px;margin:0 4px;color:inherit;-moz-window-dragging:no-drag;";
+    button.setAttribute("aria-label", "Paper Guide：带读与论文问答");
+    button.setAttribute(
+      "style",
+      "min-width:32px;width:32px;height:32px;padding:4px;border-radius:5px;background:transparent center/22px 22px no-repeat url('chrome://paper-guide/content/icons/favicon@0.5x.png');-moz-window-dragging:no-drag;",
+    );
     button.addEventListener("click", () => {
       const current = selectionDoc?.getSelection()?.toString().trim();
       const selectedText = current || selectionSnapshots.get(reader) || "";
@@ -711,4 +713,19 @@ export function registerReaderAssistant() {
     });
     registeredSelectionListeners.clear();
   };
+}
+
+/** Opens the assistant for Zotero's currently selected reader tab. */
+export function openAssistantForCurrentReader() {
+  const tabID = (Zotero.getMainWindow() as any).Zotero_Tabs?.selectedID;
+  const reader = tabID ? Zotero.Reader.getByTabID(tabID) : undefined;
+  if (!reader || !reader._iframeWindow?.document?.body) {
+    return false;
+  }
+  const selectedText =
+    reader._iframeWindow.getSelection()?.toString().trim() ||
+    selectionSnapshots.get(reader) ||
+    "";
+  createPanel(reader, selectedText);
+  return true;
 }

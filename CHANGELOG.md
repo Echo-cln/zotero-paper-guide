@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 — 2026-10-22
+
+- Add a persistent Zotero Tools menu entry to open the assistant for the selected reader tab.
+- Keep the reader toolbar entry and give it a refined paper-and-conversation icon.
+- Update installation steps to identify the Tools menu path explicitly.
+- Leave Zotero's selection popup untouched to protect translation and annotation controls.
+
 ## 0.1.3 — 2026-10-22
 
 - Remove the selection-popup injection to keep Zotero translation and annotation popups untouched.
