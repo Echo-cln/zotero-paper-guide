@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5 — 2026-10-22
+
+- Put the launch action directly in the PDF reader's top toolbar; remove the Zotero Tools menu entry.
+- Redraw the Paper Guide icon with a bright book, sprout, and conversation accent.
+- Make the toolbar button visibly framed and keyboard-accessible.
+
 ## 0.1.4 — 2026-10-22
 
 - Add a persistent Zotero Tools menu entry to open the assistant for the selected reader tab.

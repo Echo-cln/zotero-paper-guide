@@ -1,7 +1,7 @@
 {
   "name": "paper-guide-zotero",
   "type": "module",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A guided paper-reading assistant for Zotero with source-linked Q&A and configurable model providers.",
   "config": {
     "addonName": "Paper Guide",
