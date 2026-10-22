@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 — 2026-10-22
+
+- Match the selection action to Zotero’s neutral reader popup style.
+- Open the assistant after Zotero dismisses the selection popup, preserving built-in translation and annotation controls.
+- Align the assistant panel accent colors with Zotero’s restrained blue and gray palette.
+
 ## 0.1.0 — 2026-10-22
 
 Initial early prototype.

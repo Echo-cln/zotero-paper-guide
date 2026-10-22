@@ -20,7 +20,7 @@ const panels = new WeakMap<object, HTMLElement>();
 const pageCache = new Map<number, PageChunk[]>();
 
 const styles = `
-:host { all: initial; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #243347; --pg-primary:#c58a2b; --pg-primary-strong:#a96e17; --pg-primary-soft:#fbf3e3; --pg-primary-border:#ead6ae; --pg-ink:#243a53; }
+:host { all: initial; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #30343b; --pg-primary:#3f6f91; --pg-primary-strong:#315b78; --pg-primary-soft:#eef4f8; --pg-primary-border:#d5e1e9; --pg-ink:#30343b; }
 * { box-sizing: border-box; }
 .pg-shell { position: fixed; inset: 0 0 0 auto; width: 390px; max-width: 48vw; z-index: 2147483000; background:#fbfcfd; border-left:1px solid #dbe2e8; box-shadow:-10px 0 28px #1020301a; display:flex; flex-direction:column; font-size:13px; }
 .pg-shell.bottom { inset:auto 0 0 0; width:100%; max-width:none; height:38vh; border-left:0; border-top:1px solid #dbe2e8; box-shadow:0 -8px 24px #10203016; }
@@ -31,31 +31,31 @@ const styles = `
 .pg-controls { display:flex; gap:6px; }
 button { font:inherit; border:0; cursor:pointer; color:#334155; }
 .pg-icon { background:transparent; border-radius:6px; padding:6px 8px; }
-.pg-icon:hover { background:#f8f1e4; }
+.pg-icon:hover { background:#f1f3f5; }
 .pg-tabs { display:flex; gap:4px; padding:8px 12px 0; border-bottom:1px solid #e6ebef; background:#fff; flex:none; }
 .pg-tab { background:transparent; padding:8px 10px; border-bottom:2px solid transparent; color:#64748b; }
 .pg-tab.active { color:var(--pg-primary-strong); border-color:var(--pg-primary); font-weight:600; }
 .pg-main { min-height:0; overflow:auto; padding:14px; flex:1; }
-.pg-stage { padding:12px 13px; background:#fbf5e9; border:1px solid #efe1c6; border-radius:10px; margin-bottom:12px; }
-.pg-kicker { color:#9a6a1c; font-size:11px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; margin-bottom:6px; }
+.pg-stage { padding:12px 13px; background:#f4f7f9; border:1px solid #e1e8ed; border-radius:8px; margin-bottom:12px; }
+.pg-kicker { color:#536d80; font-size:11px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; margin-bottom:6px; }
 .pg-stage p { margin:0; line-height:1.55; color:#34475a; }
 .pg-msg { margin:10px 0; padding:10px 12px; border-radius:10px; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere; }
-.pg-msg.user { background:#edf4fb; margin-left:22px; }
+.pg-msg.user { background:#eef4f8; margin-left:22px; }
 .pg-msg.assistant { background:#fff; border:1px solid #e4e9ed; margin-right:6px; }
 .pg-cite { display:block; margin-top:9px; padding:8px; background:#f8fafb; border:1px solid #e5eaee; border-radius:8px; color:#526274; font-size:12px; }
 .pg-cite button { color:var(--pg-primary-strong); background:transparent; font-weight:600; padding:0; margin-left:8px; }
 .pg-actions { display:flex; gap:7px; flex-wrap:wrap; padding:8px 12px; border-top:1px solid #e6ebef; background:#fff; flex:none; }
 .pg-action { background:#f6f8fa; border:1px solid #e0e6eb; border-radius:7px; padding:7px 9px; font-size:12px; }
-.pg-action:hover { background:#f8f1e4; }
+.pg-action:hover { background:#edf2f5; }
 .pg-compose { display:flex; gap:8px; padding:10px 12px 12px; border-top:1px solid #e6ebef; background:#fff; flex:none; }
 textarea { font:inherit; resize:vertical; min-height:39px; max-height:130px; flex:1; padding:10px; border:1px solid #d7e0e6; border-radius:8px; outline:none; }
-textarea:focus,input:focus { border-color:#c58a2b; box-shadow:0 0 0 2px #c58a2b24; }
-.pg-send { background:#bd8121; color:#fff; border-radius:8px; padding:0 13px; font-weight:650; }
+textarea:focus,input:focus { border-color:#7293aa; box-shadow:0 0 0 2px #3f6f911c; }
+.pg-send { background:#3f6f91; color:#fff; border-radius:7px; padding:0 13px; font-weight:600; }
 .pg-send:disabled { opacity:.55; cursor:wait; }
 .pg-outline { list-style:none; margin:0; padding:0; }
 .pg-outline li { border-radius:6px; margin:2px 0; }
 .pg-outline button { width:100%; text-align:left; background:transparent; padding:8px 9px; border-radius:6px; }
-.pg-outline button:hover { background:#fbf5e9; }
+.pg-outline button:hover { background:#f1f4f6; }
 .pg-outline .depth-1 { padding-left:22px; }
 .pg-settings label { display:block; color:#64748b; margin:12px 0 5px; }
 .pg-settings input,.pg-settings select { width:100%; padding:9px; border:1px solid #d7e0e6; border-radius:7px; background:white; font:inherit; }
@@ -671,20 +671,32 @@ export function registerReaderAssistant() {
     button.title = "Paper Guide：带读与论文问答";
     button.textContent = "Paper Guide";
     button.style.cssText =
-      "font-size:12px;padding:4px 8px;border-radius:6px;margin:0 4px;color:#a96e17;";
+      "font-size:12px;padding:4px 8px;border-radius:4px;margin:0 4px;color:inherit;";
     button.addEventListener("click", () => createPanel(reader));
     append(button);
   };
   const addSelectionAction = (event: any) => {
     const { reader, doc, params, append } = event;
-    const button = doc.createElement("button");
-    button.textContent = "问 Paper Guide";
-    button.style.cssText =
-      "padding:5px 9px;border:0;border-radius:6px;background:#bd8121;color:#fff;cursor:pointer;";
-    button.addEventListener("click", () =>
-      createPanel(reader, params?.annotation?.text ?? ""),
-    );
-    append(button);
+    const action = doc.createElement("div");
+    action.className = "row basic";
+    action.setAttribute("role", "button");
+    action.setAttribute("tabindex", "0");
+    action.textContent = "问 Paper Guide";
+    action.style.cssText = "cursor:pointer;color:inherit;user-select:none;";
+    const selectedText = params?.annotation?.text ?? "";
+    const openAssistant = () => {
+      // Let Zotero finish dismissing its selection popup before mounting our UI.
+      // Keep a copy of the selection in case closing the popup clears the range.
+      setTimeout(() => createPanel(reader, selectedText), 0);
+    };
+    action.addEventListener("click", openAssistant);
+    action.addEventListener("keydown", (keyEvent: KeyboardEvent) => {
+      if (keyEvent.key === "Enter" || keyEvent.key === " ") {
+        keyEvent.preventDefault();
+        openAssistant();
+      }
+    });
+    append(action);
   };
   Zotero.Reader.registerEventListener(
     "renderToolbar",

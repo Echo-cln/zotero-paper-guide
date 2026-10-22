@@ -4,7 +4,7 @@
 >
 > Paper Guide 是独立的第三方开源项目，与 Zotero 官方无隶属或背书关系。它通过 Zotero 插件接口扩展阅读器，不是 Zotero 官方插件。
 
-**项目状态：早期原型（0.1.0）** · **目标平台：Zotero 7 桌面版及以上** · **界面：简体中文**
+**项目状态：早期原型（0.1.1）** · **目标平台：Zotero 7 桌面版及以上** · **界面：简体中文**
 
 ## 你可以用它做什么
 
@@ -18,7 +18,7 @@
 
 ## 安装
 
-1. 下载仓库中的 [Paper Guide 0.1.0 安装包](release/Paper-Guide-0.1.0.xpi)。后续版本会在 [Releases](https://github.com/Echo-cln/zotero-paper-guide/releases) 页面发布。
+1. 下载仓库中的 [Paper Guide 0.1.1 安装包](release/Paper-Guide-0.1.1.xpi)。后续版本会在 [Releases](https://github.com/Echo-cln/zotero-paper-guide/releases) 页面发布。
 2. 打开 Zotero，在菜单中选择 **工具 → 插件**（Tools → Add-ons）。
 3. 打开插件管理器的齿轮菜单，选择 **Install Add-on From File…**（从文件安装插件），选中下载的 `.xpi` 文件。
 4. 按 Zotero 提示重启后，打开一篇 PDF。在 PDF 阅读器工具栏点击 **Paper Guide**。
