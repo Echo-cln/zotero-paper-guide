@@ -18,7 +18,7 @@
 
 ## 安装
 
-1. 从本仓库的 [Releases](../../releases) 下载最新的 `Paper-Guide-*.xpi`。如果尚无发布版本，可从仓库文件中下载构建好的 XPI。
+1. 下载仓库中的 [Paper Guide 0.1.0 安装包](release/Paper-Guide-0.1.0.xpi)。后续版本会在 [Releases](https://github.com/Echo-cln/zotero-paper-guide/releases) 页面发布。
 2. 打开 Zotero，在菜单中选择 **工具 → 插件**（Tools → Add-ons）。
 3. 打开插件管理器的齿轮菜单，选择 **Install Add-on From File…**（从文件安装插件），选中下载的 `.xpi` 文件。
 4. 按 Zotero 提示重启后，打开一篇 PDF。在 PDF 阅读器工具栏点击 **Paper Guide**。
@@ -104,7 +104,7 @@ npm run lint:check
 
 欢迎提交 Bug 报告、功能建议和代码贡献。提交问题时请包括 Zotero 版本、操作步骤、预期结果和实际结果；请先移除 API Key、个人目录、论文全文及其他敏感信息。
 
-开始贡献前建议先查看 [Issues](../../issues) 和 [Contributing](CONTRIBUTING.md)。
+开始贡献前建议先查看 [Issues](https://github.com/Echo-cln/zotero-paper-guide/issues) 和 [Contributing](CONTRIBUTING.md)。
 
 ## 致谢与许可
 
