@@ -1,4 +1,3 @@
-npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 <div align="center">
 
 # Paper Guide for Zotero
@@ -37,7 +36,7 @@ Paper Guide 是一款 **Zotero 桌面版第三方插件**。它把 AI 论文问�
 
 ## 项目定位
 
-**Paper Guide 是 Zotero PDF 阅读器的论文阅读助手插件。**它不是一个独立的文献管理器，也不是 Zotero 官方开发或维护的功能。安装后，它通过 Zotero 插件接口向 PDF 阅读流程增加一个助手入口；Zotero 仍负责管理文献、打开 PDF 和保存原生标注。
+**Paper Guide** 是 Zotero PDF 阅读器的论文阅读助手插件。它不是一个独立的文献管理器，也不是 Zotero 官方开发或维护的功能。安装后，它通过 Zotero 插件接口向 PDF 阅读流程增加一个助手入口；Zotero 仍负责管理文献、打开 PDF 和保存原生标注。
 
 它适合这样的阅读场景：你正在读一篇论文，遇到一个概念、公式、实验设置或论证步骤，想马上问清楚；解释之后，还希望能回到原文核对，而不是离开阅读器去另一个聊天窗口重新描述上下文。
 
@@ -112,7 +111,7 @@ Paper Guide 不附带模型或 API Key。你需要自行选择并开通模型服
 | 接口协议     | 当前支持 OpenAI Chat Completions 或 Responses 形式的兼容接口 |
 | API Key      | 服务商签发的密钥                                             |
 
-**Codex 说明：**当前版本是配置第三方兼容 API 的方式，不会读取 Codex 登录态或本地配置，也不会启动 Codex CLI。因此，“支持 Responses 接口”不等于“原生接入 Codex”。
+**Codex 说明**：当前版本是配置第三方兼容 API 的方式，不会读取 Codex 登录态或本地配置，也不会启动 Codex CLI。因此，“支持 Responses 接口”不等于“原生接入 Codex”。
 
 ## 一次典型的阅读流程
 
@@ -151,7 +150,7 @@ Paper Guide 当前处于**早期原型阶段**。这一区分很重要：它提�
 - 面板和工具栏入口仍需在不同 Zotero 版本、操作系统及其他插件组合下实测；如入口不可见或其他功能异常，请先禁用插件并报告问题。
 - 当前不是跨论文项目问答工具，也不提供原生 Codex 登录接入。
 
-**请始终回到论文原文核实关键结论。**模型可能误读文本、漏掉限定条件，或把推断说成论文原意。
+请始终回到论文原文核实关键结论。模型可能误读文本、漏掉限定条件，或把推断说成论文原意。
 
 ## 隐私与数据
 
