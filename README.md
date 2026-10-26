@@ -1,3 +1,4 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 <div align="center">
 
 # Paper Guide for Zotero
@@ -11,8 +12,8 @@ Paper Guide 是一款 **Zotero 桌面版第三方插件**。它把 AI 论文问�
 [![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-green)](LICENSE)
 [![Third-party plugin](https://img.shields.io/badge/plugin-third--party-lightgrey)](#项目定位)
 
-**[下载 Zotero 安装包](https://github.com/Echo-cln/zotero-paper-guide/blob/main/release/Paper-Guide-0.1.5.xpi)** ·
-**[查看全部 Releases](https://github.com/Echo-cln/zotero-paper-guide/releases)** ·
+**[下载 Zotero 安装包](https://raw.githubusercontent.com/Echo-cln/zotero-paper-guide/main/release/Paper-Guide-0.1.5.xpi)** ·
+**[查看安装包与源码包](https://github.com/Echo-cln/zotero-paper-guide/tree/main/release)** ·
 **[报告问题](https://github.com/Echo-cln/zotero-paper-guide/issues)**
 
 </div>
@@ -75,7 +76,7 @@ Paper Guide 是一款 **Zotero 桌面版第三方插件**。它把 AI 论文问�
 
 ### 从 XPI 安装
 
-1. 从 [Paper Guide 0.1.5 Release](https://github.com/Echo-cln/zotero-paper-guide/tree/main/release) 下载 `Paper-Guide-0.1.5.xpi`。
+1. 从 [Paper Guide 0.1.5 安装包目录](https://github.com/Echo-cln/zotero-paper-guide/tree/main/release) 下载 `Paper-Guide-0.1.5.xpi`。
 2. 打开 Zotero 的 **工具 → 插件**，进入插件管理器。
 3. 点击插件管理器中的齿轮菜单，选择 **Install Add-on From File… / 从文件安装插件**。
 4. 选择下载的 `.xpi`，按 Zotero 提示完成安装并重启。
